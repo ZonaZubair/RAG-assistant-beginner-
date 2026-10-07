@@ -1,0 +1,5 @@
+Natural Language Processing, commonly called NLP, is a field of artificial intelligence that focuses on enabling computers to process and understand human language.
+
+NLP applications include sentiment analysis, text classification, machine translation, question answering, text summarization, and chatbots.
+
+Modern NLP systems commonly use embeddings and transformer-based models. Embeddings represent text as numerical vectors so that computers can compare the semantic meaning of different pieces of text.

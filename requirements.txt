@@ -1,0 +1,6 @@
+sentence-transformers
+faiss-cpu
+chromadb
+pypdf
+numpy
+transformers
