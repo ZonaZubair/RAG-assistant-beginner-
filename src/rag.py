@@ -2,34 +2,67 @@ from pathlib import Path
 
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
+from chunker import chunk_documents
 from embeddings import EmbeddingModel
-from vector_store import FAISSVectorStore
+from loader import load_documents
 from retriever import Retriever
+from vector_store import FAISSVectorStore
 
 
 class RAGPipeline:
     """
     Complete Retrieval-Augmented Generation pipeline.
 
-    1. Retrieve relevant chunks.
-    2. Build a prompt using those chunks.
-    3. Generate an answer using a language model.
+    If a saved FAISS index exists, it is loaded.
+    Otherwise, the index is built automatically from
+    the documents in data/documents/.
     """
 
     def __init__(
         self,
         model_name: str = "google/flan-t5-small",
     ):
+        project_root = Path(__file__).resolve().parent.parent
+
+        documents_path = project_root / "data" / "documents"
+        vector_store_path = project_root / "data" / "vector_store"
+
         print("Loading embedding model...")
         self.embedding_model = EmbeddingModel()
 
-        project_root = Path(__file__).resolve().parent.parent
-        vector_store_path = project_root / "data" / "vector_store"
+        index_path = vector_store_path / "index.faiss"
+        metadata_path = vector_store_path / "metadata.json"
 
-        print("Loading FAISS vector store...")
-        self.vector_store = FAISSVectorStore.load(
-            vector_store_path
-        )
+        if index_path.exists() and metadata_path.exists():
+            print("Loading FAISS vector store...")
+
+            self.vector_store = FAISSVectorStore.load(
+                vector_store_path
+            )
+
+        else:
+            print("FAISS index not found. Building vector store...")
+
+            documents = load_documents(documents_path)
+            chunks = chunk_documents(documents)
+
+            texts = [chunk["text"] for chunk in chunks]
+
+            embeddings = self.embedding_model.encode(texts)
+
+            self.vector_store = FAISSVectorStore()
+
+            self.vector_store.build(
+                embeddings,
+                chunks,
+            )
+
+            # Save the generated index when possible.
+            try:
+                self.vector_store.save(vector_store_path)
+                print("FAISS vector store saved.")
+            except Exception as error:
+                print(f"Could not save FAISS store: {error}")
 
         self.retriever = Retriever(
             self.embedding_model,
