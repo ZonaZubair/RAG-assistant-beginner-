@@ -27,11 +27,23 @@ The application retrieves relevant information from custom documents and generat
 
 ### Application Interface
 
-![Technical Knowledge RAG Assistant homepage](screenshots/01-app-home.png)
+## Screenshots
 
-### RAG Answer and Retrieved Sources
+<p align="center">
+  <strong>Application Interface</strong><br><br>
+  <img src="screenshots/01-app-home.png"
+       alt="Technical Knowledge RAG Assistant homepage"
+       width="600">
+</p>
 
-![Example RAG answer with retrieved document sources](screenshots/02-rag-answer.png)
+<br>
+
+<p align="center">
+  <strong>RAG Answer and Retrieved Sources</strong><br><br>
+  <img src="screenshots/02-rag-answer.png"
+       alt="RAG answer with retrieved document sources"
+       width="600">
+</p>
 
 ## Architecture
 
