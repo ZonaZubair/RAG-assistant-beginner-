@@ -17,6 +17,22 @@ This project demonstrates the main components of a basic RAG pipeline:
 
 The main RAG pipeline uses FAISS for vector search and FLAN-T5 for local answer generation. ChromaDB is also implemented as an alternative vector-store approach.
 
+## Live Demo
+
+Try the application here: [Open Technical Knowledge RAG Assistant](https://jvcespecwspngmbs2zc47u.streamlit.app/)
+
+The application retrieves relevant information from custom documents and generates answers using a language model.
+
+## Screenshots
+
+### Application Interface
+
+![Technical Knowledge RAG Assistant homepage](screenshots/01-app-home.png)
+
+### RAG Answer and Retrieved Sources
+
+![Example RAG answer with retrieved document sources](screenshots/02-rag-answer.png)
+
 ## Architecture
 
 ### Basic RAG Pipeline
